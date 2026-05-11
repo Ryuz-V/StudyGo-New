@@ -59,9 +59,10 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginBottom="16dp"
-        app:backgroundTint="#33dbcc" android:text="Kenalan Yuk"
-        android:textSize="16sp"
+        android:text="Kenalan Yuk"
+        android:textColor="#FFFFFF" android:textSize="16sp"
         android:textStyle="bold"
+        app:backgroundTint="#33dbcc"
         app:cornerRadius="12dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
