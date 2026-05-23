@@ -19,9 +19,33 @@
         android:elevation="5dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:src="@drawable/triangle_arrow" android:rotation="90" app:tint="#888888"/>
-        <TextView android:id="@+id/tvBulanTahun" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="MEI  2026" android:textSize="18sp" android:textStyle="bold" android:textColor="#333333" android:layout_marginStart="16dp"/>
-        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:src="@drawable/triangle_arrow" android:layout_marginStart="8dp" android:rotation="-90" app:tint="#888888"/>
+        <ImageView
+            android:id="@+id/btnBulanKiri"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/triangle_arrow"
+            android:rotation="90"
+            app:tint="#888888"
+            android:padding="4dp"/> <TextView
+        android:id="@+id/tvBulanTahun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MEI  2026"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_marginStart="12dp"/>
+
+        <ImageView
+            android:id="@+id/btnBulanKanan"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/triangle_arrow"
+            android:layout_marginStart="12dp"
+            android:rotation="-90"
+            app:tint="#888888"
+            android:padding="4dp"/>
+
         <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1"/>
 
         <ImageView
@@ -34,14 +58,19 @@
         <ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_marginStart="16dp" android:src="@drawable/menu_vertical" app:tint="#888888"/>
     </LinearLayout>
 
-    <CalendarView
-        android:id="@+id/calendarView"
+    <FrameLayout
+        android:id="@+id/calendarContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-45dp"
-        android:theme="@style/CustomCalendar"
-        android:firstDayOfWeek="2"
-        app:layout_constraintTop_toBottomOf="@id/headerLayout" />
+        app:layout_constraintTop_toBottomOf="@id/headerLayout">
+
+        <CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/CustomCalendar"
+            android:firstDayOfWeek="2"
+            android:layout_marginTop="-42dp" /> </FrameLayout>
 
     <LinearLayout
         android:id="@+id/weekViewLayout"
@@ -54,13 +83,13 @@
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/headerLayout">
 
-        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Sen\n18" android:textAlignment="center" android:textColor="#333333" android:textStyle="bold"/>
-        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Sel\n19" android:textAlignment="center" android:textColor="#333333" android:textStyle="bold"/>
-        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Rab\n20" android:textAlignment="center" android:textColor="#333333" android:textStyle="bold"/>
-        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Kam\n21" android:textAlignment="center" android:textColor="#333333" android:textStyle="bold"/>
-        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Jum\n22" android:textAlignment="center" android:textColor="#333333" android:textStyle="bold"/>
-        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Sab\n23" android:textAlignment="center" android:textColor="#FFFFFF" android:textStyle="bold" android:background="@drawable/category_selected" android:backgroundTint="#33dbcc"/>
-        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Min\n24" android:textAlignment="center" android:textColor="#333333" android:textStyle="bold"/>
+        <TextView android:id="@+id/tvSen" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Sen\n-" android:textAlignment="center" android:textColor="#333333" android:textStyle="bold"/>
+        <TextView android:id="@+id/tvSel" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Sel\n-" android:textAlignment="center" android:textColor="#333333" android:textStyle="bold"/>
+        <TextView android:id="@+id/tvRab" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Rab\n-" android:textAlignment="center" android:textColor="#333333" android:textStyle="bold"/>
+        <TextView android:id="@+id/tvKam" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Kam\n-" android:textAlignment="center" android:textColor="#333333" android:textStyle="bold"/>
+        <TextView android:id="@+id/tvJum" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Jum\n-" android:textAlignment="center" android:textColor="#333333" android:textStyle="bold"/>
+        <TextView android:id="@+id/tvSab" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Sab\n-" android:textAlignment="center" android:textColor="#333333" android:textStyle="bold"/>
+        <TextView android:id="@+id/tvMin" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Min\n-" android:textAlignment="center" android:textColor="#333333" android:textStyle="bold"/>
     </LinearLayout>
 
     <com.google.android.material.card.MaterialCardView
