@@ -14,29 +14,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Todolist"
         android:usesCleartextTraffic="true">
+
         <activity
-            android:name=".tester"
-            android:exported="false" />
-        <activity
-            android:name=".onboarding"
-            android:allowBackup="true"
-            android:exported="true"
-            android:usesCleartextTraffic="true">
+            android:name=".SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".onboarding"
+            android:exported="false" />
+
         <activity
             android:name=".login"
             android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+
         <activity
             android:name=".Profil"
             android:exported="false" />
+
     </application>
 
 </manifest>
