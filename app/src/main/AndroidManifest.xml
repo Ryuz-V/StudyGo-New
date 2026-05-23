@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -10,34 +12,31 @@
         android:label="StudyGo"
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Todolist">
-
+        android:theme="@style/Theme.Todolist"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".tester"
+            android:exported="false" />
         <activity
             android:name=".onboarding"
-            android:exported="true">
-
+            android:allowBackup="true"
+            android:exported="true"
+            android:usesCleartextTraffic="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".login"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-
-        <!-- PROFILE -->
-
         <activity
             android:name=".Profil"
             android:exported="false" />
-        <uses-permission android:name="android.permission.INTERNET" />
     </application>
 
 </manifest>

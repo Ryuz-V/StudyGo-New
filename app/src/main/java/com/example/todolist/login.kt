@@ -30,6 +30,10 @@ class login : AppCompatActivity() {
 
     // Menangani hasil setelah user memilih akun Google
     private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+        // LOG PENTING: Untuk mengecek apakah Google Sign-in dibatalkan atau error dari awal
+        Log.d("LOGIN_DEBUG", "Hasil Result Code: ${result.resultCode}")
+
         if (result.resultCode == RESULT_OK) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
@@ -51,8 +55,9 @@ class login : AppCompatActivity() {
                 )
 
                 // 3. Inisialisasi Retrofit
+                // PENTING: Ganti 10.0.2.2 dengan IP Laptop kamu jika kamu run pakai HP asli dan kabel!
                 val retrofit = Retrofit.Builder()
-                    .baseUrl("http://10.0.2.2:8000/") // Pastikan Laravel menyala di port ini
+                    .baseUrl("http://192.168.1.11:8000/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
 
@@ -99,8 +104,12 @@ class login : AppCompatActivity() {
                 })
 
             } catch (e: ApiException) {
-                Toast.makeText(this, "Google sign in failed: ${e.statusCode}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@login, "Google sign in failed: ${e.statusCode}", Toast.LENGTH_SHORT).show()
+                Log.e("LOGIN_DEBUG", "ApiException Code: ${e.statusCode}")
             }
+        } else {
+            // LOG PENTING: Menangkap kalau user batal milih akun atau ada error konfigurasi SHA1
+            Log.e("LOGIN_DEBUG", "Login dibatalkan atau gagal dengan Result Code: ${result.resultCode}")
         }
     }
 
@@ -124,7 +133,9 @@ class login : AppCompatActivity() {
             return
         }
 
+        // Konfigurasi Google Sign In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            // .requestIdToken("MASUKKAN_WEB_CLIENT_ID_DARI_GOOGLE_CLOUD_DISINI.apps.googleusercontent.com") // Buka komentar ini nanti kalau diminta token oleh backend
             .requestEmail()
             .requestProfile()
             .build()
