@@ -10,4 +10,10 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="CustomCalendar" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">#33dbcc</item> <item name="android:textColorPrimary">#000000</item> <item name="android:textStyle">bold</item>
+    </style>
+
+
+
 </resources>

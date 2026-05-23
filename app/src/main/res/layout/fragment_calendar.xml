@@ -20,10 +20,17 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView android:layout_width="12dp" android:layout_height="12dp" android:src="@drawable/triangle_arrow" android:rotation="90" app:tint="#888888"/>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="MEI  2026" android:textSize="18sp" android:textStyle="bold" android:textColor="#333333" android:layout_marginStart="16dp"/>
+        <TextView android:id="@+id/tvBulanTahun" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="MEI  2026" android:textSize="18sp" android:textStyle="bold" android:textColor="#333333" android:layout_marginStart="16dp"/>
         <ImageView android:layout_width="12dp" android:layout_height="12dp" android:src="@drawable/triangle_arrow" android:layout_marginStart="8dp" android:rotation="-90" app:tint="#888888"/>
         <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1"/>
-        <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/arrow_up" app:tint="#888888"/>
+
+        <ImageView
+            android:id="@+id/btnToggleCalendar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/arrow_up"
+            app:tint="#888888"/>
+
         <ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_marginStart="16dp" android:src="@drawable/menu_vertical" app:tint="#888888"/>
     </LinearLayout>
 
@@ -32,19 +39,50 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="-45dp"
+        android:theme="@style/CustomCalendar"
+        android:firstDayOfWeek="2"
         app:layout_constraintTop_toBottomOf="@id/headerLayout" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAdd"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/weekViewLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="#33dbcc"
-        app:tint="#FFFFFF"
-        app:elevation="6dp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout">
+
+        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Sen\n18" android:textAlignment="center" android:textColor="#333333" android:textStyle="bold"/>
+        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Sel\n19" android:textAlignment="center" android:textColor="#333333" android:textStyle="bold"/>
+        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Rab\n20" android:textAlignment="center" android:textColor="#333333" android:textStyle="bold"/>
+        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Kam\n21" android:textAlignment="center" android:textColor="#333333" android:textStyle="bold"/>
+        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Jum\n22" android:textAlignment="center" android:textColor="#333333" android:textStyle="bold"/>
+        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Sab\n23" android:textAlignment="center" android:textColor="#FFFFFF" android:textStyle="bold" android:background="@drawable/category_selected" android:backgroundTint="#33dbcc"/>
+        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Min\n24" android:textAlignment="center" android:textColor="#333333" android:textStyle="bold"/>
+    </LinearLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/fabAdd"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        app:cardBackgroundColor="#33dbcc"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@android:drawable/ic_input_add"
+            app:tint="#FFFFFF"/>
+
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

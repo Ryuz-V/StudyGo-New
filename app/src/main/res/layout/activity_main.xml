@@ -46,18 +46,21 @@
             android:gravity="center"
             android:orientation="vertical">
             <ImageView
+                android:id="@+id/iconTugas"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/task"
                 app:tint="#33dbcc"/>
             <TextView
+                android:id="@+id/textTugas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Tugas"
                 android:textColor="#33dbcc"
-                android:fontFamily="@font/robotomedium"
-                android:textSize="12sp"/>
+                android:fontFamily="@font/robotosemibold"
+                android:textSize="12sp"
+                android:visibility="visible"/>
         </LinearLayout>
 
         <LinearLayout
@@ -68,18 +71,21 @@
             android:gravity="center"
             android:orientation="vertical">
             <ImageView
+                android:id="@+id/iconKalender"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/calender"
                 app:tint="#C4C4C4"/>
             <TextView
+                android:id="@+id/textKalender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Kalender"
-                android:textColor="#C4C4C4"
-                android:fontFamily="@font/robotomedium"
-                android:textSize="12sp"/>
+                android:textColor="#33dbcc"
+                android:fontFamily="@font/robotosemibold"
+                android:textSize="12sp"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <LinearLayout
@@ -90,18 +96,21 @@
             android:gravity="center"
             android:orientation="vertical">
             <ImageView
+                android:id="@+id/iconAkun"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/user"
                 app:tint="#C4C4C4"/>
             <TextView
+                android:id="@+id/textAkun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Akun"
-                android:textColor="#C4C4C4"
-                android:fontFamily="@font/robotomedium"
-                android:textSize="12sp"/>
+                android:textColor="#33dbcc"
+                android:fontFamily="@font/robotosemibold"
+                android:textSize="12sp"
+                android:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
