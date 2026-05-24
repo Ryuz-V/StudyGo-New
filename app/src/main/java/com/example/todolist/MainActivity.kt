@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.todolist.databinding.ActivityMainBinding
+import androidx.core.view.GravityCompat
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,6 +37,12 @@ class MainActivity : AppCompatActivity() {
         binding.navAkun.setOnClickListener {
             replaceFragment(ProfileFragment())
             updateBottomNav("Akun")
+        }
+
+        // Tombol Sidebar (navSort) ditekan
+        binding.navSort.setOnClickListener {
+            // Perintah untuk membuka Drawer (Sidebar) dari sebelah kiri (START)
+            binding.drawerLayout.openDrawer(GravityCompat.START)
         }
     }
 
