@@ -32,8 +32,11 @@ class MainActivity : AppCompatActivity() {
             updateBottomNav("Kalender")
         }
 
-        // Nanti kalau ada ProfilFragment, tinggal tambahkan di sini
-        // binding.navAkun.setOnClickListener { ... }
+        // 4. Tombol Navigasi Akun ditekan
+        binding.navAkun.setOnClickListener {
+            replaceFragment(ProfileFragment())
+            updateBottomNav("Akun")
+        }
     }
 
     // FUNGSI 1: Untuk menukar halaman tanpa transisi
