@@ -1,61 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#FFFFFF"
-    android:orientation="vertical"
-    android:padding="24dp">
-
-    <EditText
-        android:id="@+id/etTaskTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:hint="Apa rencana hari ini?"
-        android:textColor="#333333"
-        android:textSize="18sp"
-        android:paddingBottom="24dp"
-        android:inputType="textCapSentences"/>
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:background="#FFFFFF">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- TITLE -->
+        <EditText
+            android:id="@+id/etTaskTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F3F6F7"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="8dp"
-            android:text="Hari Ini"
-            android:textColor="#888888"
-            android:textSize="12sp"
-            android:fontFamily="@font/robotomedium"/>
+            android:hint="Judul Task"
+            android:textSize="18sp"
+            android:textColor="#333333"
+            android:background="@null"
+            android:paddingBottom="16dp"/>
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/calender"
-            app:tint="#4285F4" />
+        <!-- CATEGORY -->
+        <EditText
+            android:id="@+id/etCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Kategori"
+            android:layout_marginTop="8dp"/>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+        <!-- DESCRIPTION -->
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:hint="Deskripsi"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:layout_marginTop="8dp"/>
 
-        <ImageView
+        <!-- DEADLINE -->
+        <EditText
+            android:id="@+id/etDeadline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Deadline (YYYY-MM-DD)"
+            android:focusable="false"
+            android:clickable="true"
+            android:layout_marginTop="8dp"/>
+
+        <!-- STATUS -->
+        <Spinner
+            android:id="@+id/spinnerStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"/>
+
+        <!-- PRIORITY -->
+        <Spinner
+            android:id="@+id/spinnerPriority"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"/>
+
+        <!-- BUTTON -->
+        <Button
             android:id="@+id/btnSubmitTask"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/category_selected"
-            app:backgroundTint="#BDBDBD"
-            android:padding="10dp"
-            android:src="@android:drawable/ic_menu_send"
-            app:tint="#FFFFFF" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tambah Task"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#4285F4"
+            android:textColor="#FFFFFF"/>
 
     </LinearLayout>
-</LinearLayout>
+
+</ScrollView>
