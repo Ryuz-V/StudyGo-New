@@ -97,30 +97,61 @@ class HomeFragment : Fragment() {
     }
 
     private fun showAddTaskDialog() {
+
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val view = layoutInflater.inflate(R.layout.bottom_sheet_task, null)
+
         bottomSheetDialog.setContentView(view)
 
-        bottomSheetDialog.behavior.state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-
-        val btnSubmit = view.findViewById<ImageView>(R.id.btnSubmitTask)
+        val etCategory = view.findViewById<EditText>(R.id.etCategory)
         val etTitle = view.findViewById<EditText>(R.id.etTaskTitle)
+        val etDescription = view.findViewById<EditText>(R.id.etDescription)
+        val etDeadline = view.findViewById<EditText>(R.id.etDeadline)
+
+        val spinnerStatus = view.findViewById<android.widget.Spinner>(R.id.spinnerStatus)
+        val spinnerPriority = view.findViewById<android.widget.Spinner>(R.id.spinnerPriority)
+
+        val btnSubmit = view.findViewById<android.widget.Button>(R.id.btnSubmitTask)
+
+        // STATUS SPINNER
+        val statusList = arrayOf("Pending", "Progress", "Done")
+
+        spinnerStatus.adapter = android.widget.ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            statusList
+        )
+
+        // PRIORITY SPINNER
+        val priorityList = arrayOf("Low", "Medium", "High")
+
+        spinnerPriority.adapter = android.widget.ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            priorityList
+        )
 
         btnSubmit.setOnClickListener {
-            val taskTitle = etTitle.text.toString().trim()
 
-            if (taskTitle.isEmpty()) {
-                Toast.makeText(requireContext(), "Judul tugas tidak boleh kosong!", Toast.LENGTH_SHORT).show()
+            val title = etTitle.text.toString().trim()
+
+            if (title.isEmpty()) {
+                Toast.makeText(
+                    requireContext(),
+                    "Judul tugas tidak boleh kosong!",
+                    Toast.LENGTH_SHORT
+                ).show()
+
                 return@setOnClickListener
             }
 
-            // ID User sementara diset 1
-            val userId = 1
-
             val taskData = TaskRequest(
-                title = taskTitle,
-                user_id = userId,
-                category = "Tugas"
+                category = etCategory.text.toString(),
+                title = title,
+                description = etDescription.text.toString(),
+                deadline = etDeadline.text.toString(),
+                status = spinnerStatus.selectedItem.toString(),
+                priority = spinnerPriority.selectedItem.toString()
             )
 
             val retrofit = Retrofit.Builder()
@@ -130,33 +161,52 @@ class HomeFragment : Fragment() {
 
             val api = retrofit.create(ApiService::class.java)
 
-            api.sendTaskData(taskData).enqueue(object : Callback<TaskResponse> {
-                override fun onResponse(call: Call<TaskResponse>, response: Response<TaskResponse>) {
-                    if (response.isSuccessful && response.body()?.success == true) {
-                        Toast.makeText(requireContext(), "Sukses disimpan ke Database!", Toast.LENGTH_SHORT).show()
+            api.sendTaskData(taskData)
+                .enqueue(object : Callback<TaskResponse> {
 
-                        bottomSheetDialog.dismiss() // Tutup popup
-                        fetchTasks() // REFRESH DAFTAR TUGAS SETELAH MENAMBAHKAN BARU!
+                    override fun onResponse(
+                        call: Call<TaskResponse>,
+                        response: Response<TaskResponse>
+                    ) {
 
-                    } else {
-                        val kodeError = response.code()
-                        Toast.makeText(requireContext(), "Gagal! Kode Error: $kodeError", Toast.LENGTH_LONG).show()
-                        Log.e("TASK_API", "Error Server: ${response.errorBody()?.string()}")
+                        if (response.isSuccessful) {
+
+                            Toast.makeText(
+                                requireContext(),
+                                "Task berhasil ditambahkan!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                            bottomSheetDialog.dismiss()
+
+                            fetchTasks()
+
+                        } else {
+
+                            Toast.makeText(
+                                requireContext(),
+                                "Gagal: ${response.code()}",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                     }
-                }
 
-                override fun onFailure(call: Call<TaskResponse>, t: Throwable) {
-                    Toast.makeText(requireContext(), "Koneksi Bermasalah!", Toast.LENGTH_SHORT).show()
-                    Log.e("TASK_API", "Koneksi Gagal: ${t.message}")
-                }
-            })
+                    override fun onFailure(
+                        call: Call<TaskResponse>,
+                        t: Throwable
+                    ) {
+
+                        Toast.makeText(
+                            requireContext(),
+                            "Error: ${t.message}",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                        Log.e("TASK_API", t.message.toString())
+                    }
+                })
         }
 
         bottomSheetDialog.show()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
