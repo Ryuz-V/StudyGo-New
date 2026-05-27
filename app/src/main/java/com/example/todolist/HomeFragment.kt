@@ -57,8 +57,9 @@ class HomeFragment : Fragment() {
     private fun fetchTasks() {
         Toast.makeText(requireContext(), "Memuat daftar tugas...", Toast.LENGTH_SHORT).show()
 
+//      ip config yang di kos ku  192.168.1.6
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.1.6:8000/")
+            .baseUrl("http://10.212.66.66:8000/") // <--- YANG BENAR
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

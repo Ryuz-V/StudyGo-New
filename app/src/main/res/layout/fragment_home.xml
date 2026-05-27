@@ -23,10 +23,161 @@
             android:orientation="horizontal"
             android:paddingHorizontal="20dp">
 
-            <TextView android:layout_width="wrap_content" android:layout_height="36dp" android:paddingHorizontal="20dp" android:gravity="center" android:text="Wishlist" android:textColor="#FFFFFF" android:textSize="14sp" android:background="@drawable/category_selected" android:backgroundTint="#33dbcc" />
-            <TextView android:layout_width="wrap_content" android:layout_height="36dp" android:paddingHorizontal="20dp" android:gravity="center" android:text="Kerja" android:textColor="#ffffff" android:textSize="14sp" android:layout_marginStart="12dp" android:background="@drawable/category_unselected" android:backgroundTint="#33dbcc"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="36dp" android:paddingHorizontal="20dp" android:gravity="center" android:text="Pribadi" android:textColor="#ffffff" android:textSize="14sp" android:layout_marginStart="12dp" android:background="@drawable/category_unselected" android:backgroundTint="#33dbcc"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="36dp" android:paddingHorizontal="20dp" android:gravity="center" android:text="Lainnya" android:textColor="#ffffff" android:textSize="14sp" android:layout_marginStart="12dp" android:background="@drawable/category_unselected" android:backgroundTint="#33dbcc"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:paddingHorizontal="20dp"
+                android:gravity="center"
+                android:text="Wishlist"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:background="@drawable/category_selected"
+                android:backgroundTint="#33dbcc" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:paddingHorizontal="20dp"
+                android:gravity="center"
+                android:text="Matematika"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/category_unselected"
+                android:backgroundTint="#33dbcc"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:paddingHorizontal="20dp"
+                android:gravity="center"
+                android:text="IPA"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/category_unselected"
+                android:backgroundTint="#33dbcc"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:paddingHorizontal="20dp"
+                android:gravity="center"
+                android:text="IPS"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/category_unselected"
+                android:backgroundTint="#33dbcc"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:paddingHorizontal="20dp"
+                android:gravity="center"
+                android:text="Sejarah"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/category_unselected"
+                android:backgroundTint="#33dbcc"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:paddingHorizontal="20dp"
+                android:gravity="center"
+                android:text="Informatika"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/category_unselected"
+                android:backgroundTint="#33dbcc"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:paddingHorizontal="20dp"
+                android:gravity="center"
+                android:text="B. Inggris"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/category_unselected"
+                android:backgroundTint="#33dbcc"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:paddingHorizontal="20dp"
+                android:gravity="center"
+                android:text="B. Indonesia"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/category_unselected"
+                android:backgroundTint="#33dbcc"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:paddingHorizontal="20dp"
+                android:gravity="center"
+                android:text="PKN"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/category_unselected"
+                android:backgroundTint="#33dbcc"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:paddingHorizontal="20dp"
+                android:gravity="center"
+                android:text="Agama"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/category_unselected"
+                android:backgroundTint="#33dbcc"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:paddingHorizontal="20dp"
+                android:gravity="center"
+                android:text="Seni Budaya"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/category_unselected"
+                android:backgroundTint="#33dbcc"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:paddingHorizontal="20dp"
+                android:gravity="center"
+                android:text="Penjas"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/category_unselected"
+                android:backgroundTint="#33dbcc"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:paddingHorizontal="20dp"
+                android:gravity="center"
+                android:text="Lainnya"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/category_unselected"
+                android:backgroundTint="#33dbcc"/>
+
         </LinearLayout>
     </HorizontalScrollView>
 
@@ -87,13 +238,27 @@
         app:layout_constraintTop_toBottomOf="@id/tvEmptyTitle" />
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/pulseRing"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        app:cardBackgroundColor="#8033DBCC"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/fabAdd"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         app:cardBackgroundColor="#33dbcc"
-        app:cardCornerRadius="16dp"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="10dp"
         app:strokeWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
