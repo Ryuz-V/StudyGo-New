@@ -25,11 +25,11 @@
         </activity>
 
         <activity
-            android:name=".onboarding"
+            android:name=".OnBoarding"
             android:exported="false" />
 
         <activity
-            android:name=".login"
+            android:name=".Login"
             android:exported="false" />
 
         <activity

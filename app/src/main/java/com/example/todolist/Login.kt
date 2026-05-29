@@ -24,7 +24,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class login : AppCompatActivity() {
+class Login : AppCompatActivity() {
 
     private lateinit var googleSignInClient: GoogleSignInClient
 
@@ -82,29 +82,29 @@ class login : AppCompatActivity() {
                                 apply()
                             }
 
-                            Toast.makeText(this@login, "Selamat datang di Tugasin, $nama", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@Login, "Selamat datang di Tugasin, $nama", Toast.LENGTH_SHORT).show()
 
                             // Pindah ke MainActivity SETELAH data berhasil disimpan di database Laravel
-                            val intent = Intent(this@login, MainActivity::class.java)
+                            val intent = Intent(this@Login, MainActivity::class.java)
                             startActivity(intent)
                             finish()
 
                         } else {
                             // Gagal dari sisi server (misal validasi salah)
-                            Toast.makeText(this@login, "Gagal menyimpan ke server", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@Login, "Gagal menyimpan ke server", Toast.LENGTH_SHORT).show()
                             Log.e("LOGIN_API", "Gagal: ${response.errorBody()?.string()}")
                         }
                     }
 
                     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                         // Gagal koneksi (misal server mati atau salah IP)
-                        Toast.makeText(this@login, "Koneksi Error. Pastikan server aktif.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@Login, "Koneksi Error. Pastikan server aktif.", Toast.LENGTH_SHORT).show()
                         Log.e("LOGIN_API", "Koneksi Error: ${t.message}")
                     }
                 })
 
             } catch (e: ApiException) {
-                Toast.makeText(this@login, "Google sign in failed: ${e.statusCode}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@Login, "Google sign in failed: ${e.statusCode}", Toast.LENGTH_SHORT).show()
                 Log.e("LOGIN_DEBUG", "ApiException Code: ${e.statusCode}")
             }
         } else {

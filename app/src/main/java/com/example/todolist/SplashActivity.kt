@@ -24,7 +24,7 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(Intent(this, MainActivity::class.java))
             } else {
                 // JIKA BELUM LOGIN: Lempar ke halaman Onboarding
-                startActivity(Intent(this, onboarding::class.java))
+                startActivity(Intent(this, OnBoarding::class.java))
             }
 
             // Hancurkan halaman Splash ini agar tidak bisa dikembalikan pakai tombol "Back"

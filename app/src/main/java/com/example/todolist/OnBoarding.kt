@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 
-class onboarding : AppCompatActivity() {
+class OnBoarding : AppCompatActivity() {
     private var currentStep = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,14 +55,14 @@ class onboarding : AppCompatActivity() {
                 updateUI()         // Perbarui gambar dan teks
             } else {
                 // Jika sudah di slide terakhir, pindah ke halaman Login
-                val intent = Intent(this, login::class.java)
+                val intent = Intent(this, Login::class.java)
                 startActivity(intent)
                 finish() // Tutup halaman onboarding
             }
         }
         
         tvSkip.setOnClickListener {
-            val intent = Intent(this, login::class.java)
+            val intent = Intent(this, Login::class.java)
             startActivity(intent)
             finish()
         }
