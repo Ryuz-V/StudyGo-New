@@ -1,5 +1,7 @@
 package com.example.todolist
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -39,10 +41,26 @@ class MainActivity : AppCompatActivity() {
             updateBottomNav("Akun")
         }
 
-        // Tombol Sidebar (navSort) ditekan
+        // 5. Tombol Sidebar (navSort) ditekan untuk membuka Drawer
         binding.navSort.setOnClickListener {
-            // Perintah untuk membuka Drawer (Sidebar) dari sebelah kiri (START)
             binding.drawerLayout.openDrawer(GravityCompat.START)
+        }
+
+        // ==========================================
+        //         LOGIC SIDEBAR MENU LOGOUT
+        // ==========================================
+        binding.menuLogout.setOnClickListener {
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+
+            val sharedPref = getSharedPreferences("SesiPengguna", Context.MODE_PRIVATE)
+            sharedPref.edit().clear().apply()
+
+            // 3. UBAH 'login' menjadi 'Login' (Huruf Kapital)
+            val intent = Intent(this, Login::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+
+            finish()
         }
     }
 
@@ -50,9 +68,6 @@ class MainActivity : AppCompatActivity() {
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-
-        // NOTE: Baris animasi fade_in & fade_out SUDAH DIHAPUS agar instan!
-
         fragmentTransaction.replace(R.id.fragment_container, fragment)
         fragmentTransaction.commit()
     }

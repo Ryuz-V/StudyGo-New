@@ -7,18 +7,19 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:fontFamily="sans-serif"
-    tools:context=".Login">
+    tools:context=".login">
 
     <ImageView
         android:id="@+id/logoImageView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="16dp"
         android:adjustViewBounds="true"
         android:contentDescription="Logo Aplikasi"
         android:scaleType="centerCrop"
         android:src="@drawable/tree_logo"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,7 +27,7 @@
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/robotobold"
         android:gravity="center"
         android:paddingLeft="24dp"
@@ -36,21 +37,22 @@
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logoImageView" />
 
     <TextView
         android:id="@+id/subtitleTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/robotosemibold"
         android:gravity="center"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:text="Silakan masuk untuk melanjutkan"
+        android:text="Masukkan email dan kata sandi Anda untuk mengakses akun Anda dengan aman dan mengelola layanan Anda."
         android:textColor="#6B7280"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleTextView" />
@@ -60,14 +62,17 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusBottomEnd="12dp"
         app:boxCornerRadiusBottomStart="12dp"
         app:boxCornerRadiusTopEnd="12dp"
         app:boxCornerRadiusTopStart="12dp"
+        app:boxStrokeColor="#33DBCC"
+        app:hintTextColor="#33DBCC"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/subtitleTextView">
 
@@ -93,7 +98,9 @@
         app:boxCornerRadiusBottomStart="12dp"
         app:boxCornerRadiusTopEnd="12dp"
         app:boxCornerRadiusTopStart="12dp"
+        app:boxStrokeColor="#33DBCC"
         app:endIconMode="password_toggle"
+        app:hintTextColor="#33DBCC"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emailLayout">
@@ -108,12 +115,25 @@
             android:textColorHint="#9CA3AF" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/tvForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/robotosemibold"
+        android:text="Lupa Password"
+        android:textColor="#6B7280"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordLayout" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogin"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="#33DBCC"
         android:fontFamily="@font/robotosemibold"
@@ -126,7 +146,7 @@
         app:cornerRadius="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passwordLayout" />
+        app:layout_constraintTop_toBottomOf="@id/tvForgotPassword" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnGoogleLogin"
@@ -137,7 +157,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:fontFamily="@font/robotosemibold"
-        android:gravity="center"
         android:text="Lanjutkan dengan Google"
         android:textAllCaps="false"
         android:textColor="#111827"
@@ -146,7 +165,7 @@
         app:cornerRadius="12dp"
         app:icon="@drawable/google"
         app:iconGravity="textStart"
-        app:iconPadding="12dp"
+        app:iconPadding="4dp"
         app:iconTint="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -154,31 +173,32 @@
         app:strokeColor="#D1D5DB"
         app:strokeWidth="1dp" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnAppleLogin"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="24dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:backgroundTint="#33DBCC"
-        android:fontFamily="@font/robotosemibold"
-        android:gravity="center"
-        android:text="Lanjutkan dengan Apple"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:cornerRadius="12dp"
-        app:icon="@drawable/apple"
-        app:iconGravity="textStart"
-        app:iconPadding="12dp"
-        app:iconTint="@null"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnGoogleLogin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@id/btnGoogleLogin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/robotosemibold"
+            android:text="Belum Memiliki Akun? "
+            android:textColor="#6B7280"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/robotosemibold"
+            android:text="Daftar Sekarang"
+            android:textColor="#33DBCC"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
