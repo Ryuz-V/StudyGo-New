@@ -1,6 +1,5 @@
 package com.example.todolist
 
-// Ganti dengan package network yang sesuai jika masih merah
 import android.app.DatePickerDialog
 import android.content.Context
 import android.graphics.Color
@@ -36,7 +35,6 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var taskAdapter: TaskAdapter
-    private val baseUrl = "http://192.168.1.8:8000/"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,9 +47,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Inisialisasi adapter
         taskAdapter = TaskAdapter(emptyList()) { task, newColor ->
-            // CATATAN PENTING: Jika di TaskData pakainya id_task, ubah task.id menjadi task.id_task
             updateTaskColorToServer(task.id, newColor)
         }
 
@@ -205,6 +201,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateTaskColorToServer(taskId: Int, newColor: String) {
+        Log.d("CEK_KIRIM_API", "Mencoba update Task ID: $taskId ke warna $newColor")
         val sharedPref = requireContext().getSharedPreferences("SesiPengguna", Context.MODE_PRIVATE)
         val token = sharedPref.getString("token", "") ?: ""
 

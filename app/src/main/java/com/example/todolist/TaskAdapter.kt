@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+// Pastikan import ini mengarah ke folder model yang benar
 import com.example.todolist.model.TaskData
 
 class TaskAdapter(
@@ -28,10 +29,8 @@ class TaskAdapter(
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val task = taskList[position]
 
-        // Menggunakan String Template untuk mencegah error Type Mismatch
         holder.tvTitle.text = "${task.title}"
 
-        // Ambil warna flag dari data model
         val colorHex = task.flagColor ?: "#BDBDBD"
         holder.imgFlag.setColorFilter(Color.parseColor(colorHex))
 
@@ -64,7 +63,6 @@ class TaskAdapter(
         popupView.findViewById<ImageView>(R.id.flagPurple).setOnClickListener { updateColor("#AB47BC") }
         popupView.findViewById<ImageView>(R.id.flagBlue).setOnClickListener { updateColor("#42A5F5") }
         popupView.findViewById<ImageView>(R.id.flagGreen).setOnClickListener { updateColor("#66BB6A") }
-
         popupWindow.showAsDropDown(anchorView, 0, 10)
     }
 
