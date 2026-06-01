@@ -1,6 +1,8 @@
 package com.example.todolist
 
+// Ganti dengan package network yang sesuai jika masih merah
 import android.app.DatePickerDialog
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -19,19 +21,14 @@ import com.example.todolist.databinding.FragmentHomeBinding
 import com.example.todolist.model.TaskData
 import com.example.todolist.model.TaskRequest
 import com.example.todolist.model.TaskResponse
-import com.example.todolist.model.TaskListResponse
-import com.example.todolist.network.ApiService
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import network.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.util.Calendar
 import java.util.Locale
-import android.content.Context
 
 class HomeFragment : Fragment() {
 
@@ -39,8 +36,6 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var taskAdapter: TaskAdapter
-
-    // Ubah nama variabel agar tidak ada warning "should not contain underscores"
     private val baseUrl = "http://192.168.1.8:8000/"
 
     override fun onCreateView(
@@ -54,7 +49,12 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        taskAdapter = TaskAdapter(emptyList())
+        // Inisialisasi adapter
+        taskAdapter = TaskAdapter(emptyList()) { task, newColor ->
+            // CATATAN PENTING: Jika di TaskData pakainya id_task, ubah task.id menjadi task.id_task
+            updateTaskColorToServer(task.id, newColor)
+        }
+
         binding.rvTasks.layoutManager = LinearLayoutManager(requireContext())
         binding.rvTasks.adapter = taskAdapter
 
@@ -62,7 +62,6 @@ class HomeFragment : Fragment() {
             showAddTaskDialog()
         }
 
-        // Pastikan R.anim.pulse_anim benar-benar ada di folder res/anim/
         try {
             val pulseAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.pulse_anim)
             binding.pulseRing.startAnimation(pulseAnimation)
@@ -73,11 +72,9 @@ class HomeFragment : Fragment() {
         fetchTasks()
     }
 
-
     private fun fetchTasks() {
         val sharedPref = requireContext().getSharedPreferences("SesiPengguna", Context.MODE_PRIVATE)
         val token = sharedPref.getString("token", "")
-        Log.d("DEBUG_TOKEN", "Token yang dikirim: $token")
 
         if (token.isNullOrEmpty()) {
             Toast.makeText(requireContext(), "Token tidak ditemukan!", Toast.LENGTH_SHORT).show()
@@ -90,26 +87,26 @@ class HomeFragment : Fragment() {
             override fun onResponse(call: Call<List<TaskData>>, response: Response<List<TaskData>>) {
                 if (response.isSuccessful) {
                     val tasks = response.body() ?: emptyList()
-                    Log.d("API_SUCCESS", "Data diterima: ${tasks.size} task") // Log sukses
 
                     if (tasks.isNotEmpty()) {
-                        binding.imgEmpty.visibility = View.GONE
                         binding.rvTasks.visibility = View.VISIBLE
+                        binding.imgEmpty.visibility = View.GONE
+                        binding.tvEmptyTitle.visibility = View.GONE
+                        binding.tvEmptySubtitle.visibility = View.GONE
+
                         taskAdapter.updateData(tasks)
                     } else {
                         binding.rvTasks.visibility = View.GONE
                         binding.imgEmpty.visibility = View.VISIBLE
+                        binding.tvEmptyTitle.visibility = View.VISIBLE
+                        binding.tvEmptySubtitle.visibility = View.VISIBLE
                     }
                 } else {
-                    // INI BAGIAN PENTING UNTUK DEBUG
-                    val errorBody = response.errorBody()?.string()
-                    Log.e("API_ERROR", "Code: ${response.code()}, Body: $errorBody")
                     Toast.makeText(requireContext(), "Error: ${response.code()}", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<List<TaskData>>, t: Throwable) {
-                Log.e("API_FAILURE", "Error: ${t.message}") // Tambahkan log untuk onFailure
                 Toast.makeText(requireContext(), "Koneksi Gagal: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
@@ -117,7 +114,6 @@ class HomeFragment : Fragment() {
 
     private fun showAddTaskDialog() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
-        // Menggunakan false untuk menghilangkan warning "Avoid passing null as the view root"
         val view = layoutInflater.inflate(R.layout.bottom_sheet_task, null, false)
         bottomSheetDialog.setContentView(view)
 
@@ -128,12 +124,8 @@ class HomeFragment : Fragment() {
 
         var selectedDate = ""
 
-        // ==========================================
-        // LOGIKA POP-UP KATEGORI
-        // ==========================================
-        tvCategory.setOnClickListener { v -> // Ubah 'it' menjadi 'v' agar lebih spesifik tipe View-nya
+        tvCategory.setOnClickListener { v ->
             val popupMenu = PopupMenu(requireContext(), v)
-
             popupMenu.menu.add("Matematika")
             popupMenu.menu.add("IPA")
             popupMenu.menu.add("Sejarah")
@@ -147,9 +139,6 @@ class HomeFragment : Fragment() {
             popupMenu.show()
         }
 
-        // ==========================================
-        // LOGIKA KALENDER
-        // ==========================================
         btnCalendar.setOnClickListener {
             val calendar = Calendar.getInstance()
             val year = calendar.get(Calendar.YEAR)
@@ -157,7 +146,6 @@ class HomeFragment : Fragment() {
             val day = calendar.get(Calendar.DAY_OF_MONTH)
 
             val datePickerDialog = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
-                // Menggunakan Locale.getDefault() agar tidak muncul warning bug format
                 val formattedMonth = String.format(Locale.getDefault(), "%02d", selectedMonth + 1)
                 val formattedDay = String.format(Locale.getDefault(), "%02d", selectedDay)
                 selectedDate = "$selectedYear-$formattedMonth-$formattedDay"
@@ -168,9 +156,6 @@ class HomeFragment : Fragment() {
             datePickerDialog.show()
         }
 
-        // ==========================================
-        // LOGIKA SUBMIT
-        // ==========================================
         btnSubmit.setOnClickListener {
             val title = etTitle.text.toString().trim()
 
@@ -191,19 +176,16 @@ class HomeFragment : Fragment() {
                 priority = "Medium"
             )
 
-            // AMBIL TOKEN DARI SHAREDPREFERENCES
             val sharedPref = requireContext().getSharedPreferences("SesiPengguna", Context.MODE_PRIVATE)
             val token = sharedPref.getString("token", "") ?: ""
-
             val api = RetrofitClient.instance
 
-            // MASUKKAN TOKEN KE DALAM PEMANGGILAN API
             api.sendTaskData("Bearer $token", taskData).enqueue(object : Callback<TaskResponse> {
                 override fun onResponse(call: Call<TaskResponse>, response: Response<TaskResponse>) {
                     if (response.isSuccessful) {
                         Toast.makeText(requireContext(), "Task berhasil ditambahkan!", Toast.LENGTH_SHORT).show()
                         bottomSheetDialog.dismiss()
-                        fetchTasks() // Refresh list task
+                        fetchTasks()
                     } else {
                         Toast.makeText(requireContext(), "Gagal: ${response.code()}", Toast.LENGTH_LONG).show()
                         btnSubmit.isEnabled = true
@@ -220,6 +202,27 @@ class HomeFragment : Fragment() {
         }
 
         bottomSheetDialog.show()
+    }
+
+    private fun updateTaskColorToServer(taskId: Int, newColor: String) {
+        val sharedPref = requireContext().getSharedPreferences("SesiPengguna", Context.MODE_PRIVATE)
+        val token = sharedPref.getString("token", "") ?: ""
+
+        if (token.isEmpty()) return
+        val api = RetrofitClient.instance
+
+        api.updateTaskColor("Bearer $token", taskId, newColor).enqueue(object : Callback<TaskResponse> {
+            override fun onResponse(call: Call<TaskResponse>, response: Response<TaskResponse>) {
+                if (response.isSuccessful) {
+                    Log.d("API_COLOR", "Warna bendera berhasil disimpan!")
+                } else {
+                    Log.e("API_COLOR_ERROR", "Gagal: ${response.code()}")
+                }
+            }
+            override fun onFailure(call: Call<TaskResponse>, t: Throwable) {
+                Log.e("API_COLOR_FAIL", "Error koneksi: ${t.message}")
+            }
+        })
     }
 
     override fun onDestroyView() {

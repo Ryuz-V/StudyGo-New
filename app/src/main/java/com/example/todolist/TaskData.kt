@@ -4,7 +4,8 @@ data class TaskData(
     val id: Int,
     val title: String,
     val category: Category?, // Pastikan ini menggunakan class Category?, bukan Any? atau String?
-    val is_completed: Int
+    val is_completed: Int,
+    val flagColor: String?
 )
 
 data class TaskListResponse(

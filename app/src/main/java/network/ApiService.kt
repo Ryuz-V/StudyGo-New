@@ -12,6 +12,11 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Header
+import retrofit2.http.PATCH
+import retrofit2.http.Path
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+
 
 interface ApiService {
 
@@ -32,4 +37,12 @@ interface ApiService {
 
     @GET("api/tasks")
     fun getTasks(@Header("Authorization") token: String): Call<List<TaskData>>
+
+    @FormUrlEncoded
+    @PATCH("api/tasks/{id}/color") // Sesuaikan jika ada prefix /api/
+    fun updateTaskColor(
+        @Header("Authorization") token: String,
+        @Path("id") taskId: Int,
+        @Field("flag_color") flagColor: String
+    ): Call<TaskResponse>
 }

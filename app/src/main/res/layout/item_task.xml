@@ -36,8 +36,10 @@
             android:fontFamily="@font/robotomedium"/>
 
         <ImageView
+            android:id="@+id/imgFlag"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/gray_flag"
-            app:tint="#BDBDBD"/> </LinearLayout>
+            app:tint="#BDBDBD"/>
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
