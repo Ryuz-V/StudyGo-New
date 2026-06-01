@@ -11,6 +11,7 @@ class TaskAdapter(private var taskList: List<TaskData>) : RecyclerView.Adapter<T
 
     class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvTitle: TextView = itemView.findViewById(R.id.tvTaskTitle)
+        val tvCategory: TextView? = itemView.findViewById(R.id.tvCategory)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
@@ -21,6 +22,10 @@ class TaskAdapter(private var taskList: List<TaskData>) : RecyclerView.Adapter<T
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val task = taskList[position]
         holder.tvTitle.text = task.title
+
+        // Panggil properti .name dari objek category
+        // Jika category null, tampilkan "Tanpa Kategori"
+        holder.tvCategory?.text = task.category?.name ?: "Tanpa Kategori"
     }
 
     override fun getItemCount(): Int = taskList.size

@@ -1,79 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottom_sheet"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <EditText
+        android:id="@+id/etTaskTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:background="@null"
+        android:hint="Apa rencana hari ini?"
+        android:inputType="textCapSentences|textMultiLine"
+        android:textColor="#333333"
+        android:textColorHint="#BDBDBD"
+        android:textSize="18sp"
+        android:layout_marginBottom="24dp"
+        android:importantForAutofill="no"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp"
-        android:background="#FFFFFF">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-        <!-- TITLE -->
-        <EditText
-            android:id="@+id/etTaskTitle"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvCategory"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Judul Task"
-            android:textSize="18sp"
-            android:textColor="#333333"
-            android:background="@null"
-            android:paddingBottom="16dp"/>
+            android:background="@drawable/bg_chip_gray"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="8dp"
+            android:text="Tidak Ada Kategori"
+            android:textColor="#757575"
+            android:textSize="13sp" />
 
-        <!-- CATEGORY -->
-        <EditText
-            android:id="@+id/etCategory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Kategori"
-            android:layout_marginTop="8dp"/>
+        <ImageView
+            android:id="@+id/btnCalendar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Pilih Tanggal"
+            android:padding="4dp"
+            android:src="@drawable/calender"
+            app:tint="#33dbcc" />
 
-        <!-- DESCRIPTION -->
-        <EditText
-            android:id="@+id/etDescription"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:hint="Deskripsi"
-            android:gravity="top"
-            android:inputType="textMultiLine"
-            android:layout_marginTop="8dp"/>
+        <ImageView
+            android:id="@+id/btnSubtask"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="12dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Tambah Subtask"
+            android:padding="4dp"
+            android:src="@drawable/merge"
+            app:tint="#33dbcc" />
 
-        <!-- DEADLINE -->
-        <EditText
-            android:id="@+id/etDeadline"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Deadline (YYYY-MM-DD)"
-            android:focusable="false"
-            android:clickable="true"
-            android:layout_marginTop="8dp"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-        <!-- STATUS -->
-        <Spinner
-            android:id="@+id/spinnerStatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"/>
-
-        <!-- PRIORITY -->
-        <Spinner
-            android:id="@+id/spinnerPriority"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"/>
-
-        <!-- BUTTON -->
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnSubmitTask"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tambah Task"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="#4285F4"
-            android:textColor="#FFFFFF"/>
+            android:contentDescription="Kirim Tugas"
+            app:fabCustomSize="42dp"
+            android:src="@drawable/send"
+            app:backgroundTint="#33dbcc"
+            app:tint="#FFFFFF"
+            app:elevation="0dp"
+            app:pressedTranslationZ="0dp"
+            android:stateListAnimator="@null" />
 
     </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

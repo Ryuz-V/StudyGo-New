@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         // 1. Tampilkan halaman Tugas (Home) pertama kali
         replaceFragment(HomeFragment())
-        updateBottomNav("Tugas") // Set menu Tugas aktif
+        updateBottomNav("Tugas")
 
         // 2. Tombol Navigasi Tugas ditekan
         binding.navTugas.setOnClickListener {
@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity() {
             val sharedPref = getSharedPreferences("SesiPengguna", Context.MODE_PRIVATE)
             sharedPref.edit().clear().apply()
 
-            // 3. UBAH 'login' menjadi 'Login' (Huruf Kapital)
             val intent = Intent(this, Login::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
@@ -64,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // FUNGSI 1: Untuk menukar halaman tanpa transisi
+    // FUNGSI 1: Untuk menukar halaman
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
@@ -74,7 +73,6 @@ class MainActivity : AppCompatActivity() {
 
     // FUNGSI 2: Untuk mengatur warna dan teks menu yang aktif
     private fun updateBottomNav(activeMenu: String) {
-        // Reset semua menu ke warna abu-abu dan sembunyikan teksnya
         binding.iconTugas.setColorFilter(Color.parseColor("#C4C4C4"))
         binding.textTugas.visibility = View.GONE
 
@@ -84,7 +82,6 @@ class MainActivity : AppCompatActivity() {
         binding.iconAkun.setColorFilter(Color.parseColor("#C4C4C4"))
         binding.textAkun.visibility = View.GONE
 
-        // Ubah warna ikon menjadi hijau dan munculkan teks HANYA pada menu yang dipilih
         when (activeMenu) {
             "Tugas" -> {
                 binding.iconTugas.setColorFilter(Color.parseColor("#33dbcc"))

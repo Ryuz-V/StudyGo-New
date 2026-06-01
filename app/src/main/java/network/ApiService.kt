@@ -6,17 +6,14 @@ import com.example.todolist.model.RegisterRequest
 import com.example.todolist.model.LoginResponse
 import com.example.todolist.model.TaskRequest
 import com.example.todolist.model.TaskResponse
-import com.example.todolist.model.TaskListResponse
+import com.example.todolist.model.TaskData
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Header
 
 interface ApiService {
-
-    // ==========================================
-    //            AUTHENTICATION
-    // ==========================================
 
     @POST("api/login/social")
     fun sendSocialLoginData(@Body request: SocialLoginRequest): Call<LoginResponse>
@@ -24,17 +21,15 @@ interface ApiService {
     @POST("api/register")
     fun register(@Body request: RegisterRequest): Call<LoginResponse>
 
-    @POST("api/login") // Pastikan URL ini sesuai dengan routes/api.php di Laravel
+    @POST("api/login")
     fun login(@Body request: ManualLoginRequest): Call<LoginResponse>
 
-
-    // ==========================================
-    //               TASKS
-    // ==========================================
-
     @POST("api/tasks")
-    fun sendTaskData(@Body request: TaskRequest): Call<TaskResponse>
+    fun sendTaskData(
+        @Header("Authorization") token: String,
+        @Body request: TaskRequest
+    ): Call<TaskResponse>
 
     @GET("api/tasks")
-    fun getTasks(): Call<TaskListResponse>
+    fun getTasks(@Header("Authorization") token: String): Call<List<TaskData>>
 }

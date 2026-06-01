@@ -8,7 +8,7 @@
     android:layout_marginBottom="12dp"
     app:cardCornerRadius="12dp"
     app:cardElevation="0dp"
-    app:strokeColor="#E0E0E0"
+    app:cardBackgroundColor="#FFFFFF" app:strokeColor="#E0E0E0"
     app:strokeWidth="1dp">
 
     <LinearLayout
@@ -20,10 +20,9 @@
 
         <ImageView
             android:id="@+id/imgCheckbox"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/category_unselected"
-            app:tint="#BDBDBD"/>
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_circle_outline" />
 
         <TextView
             android:id="@+id/tvTaskTitle"
@@ -39,7 +38,6 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/calender"
-            app:tint="#E0E0E0"/>
-    </LinearLayout>
+            android:src="@drawable/gray_flag"
+            app:tint="#BDBDBD"/> </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

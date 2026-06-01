@@ -156,76 +156,110 @@
                 android:paddingHorizontal="24dp"
                 android:paddingVertical="16dp">
 
-                <TextView
-                    android:id="@+id/menuTanyaJawab"
+                <LinearLayout
+                    android:id="@+id/category"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Tanya-Jawab"
-                    android:textColor="#555555"
-                    android:textSize="16sp"
                     android:paddingVertical="14dp"
-                    android:drawablePadding="16dp"
-                    android:drawableStart="@android:drawable/ic_menu_help"
                     android:gravity="center_vertical"
-                    android:fontFamily="@font/robotosemibold"/>
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/category" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Kategori"
+                        android:textColor="#555555"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/robotosemibold"/>
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/menuIkutiKami"
+                <LinearLayout
+                    android:id="@+id/history"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Ikuti kami"
-                    android:textColor="#555555"
-                    android:textSize="16sp"
                     android:paddingVertical="14dp"
-                    android:drawablePadding="16dp"
-                    android:drawableStart="@android:drawable/ic_menu_share"
                     android:gravity="center_vertical"
-                    android:fontFamily="@font/robotosemibold"/>
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/history" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Riwayat"
+                        android:textColor="#555555"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/robotosemibold"/>
+                </LinearLayout>
 
-                <TextView
+                <LinearLayout
                     android:id="@+id/menuSumbang"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sumbang"
-                    android:textColor="#555555"
-                    android:textSize="16sp"
                     android:paddingVertical="14dp"
-                    android:drawablePadding="16dp"
-                    android:drawableStart="@android:drawable/ic_menu_gallery"
                     android:gravity="center_vertical"
-                    android:fontFamily="@font/robotosemibold"/>
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/love" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Sumbang"
+                        android:textColor="#555555"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/robotosemibold"/>
+                </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#EEEEEE"
-                    android:layout_marginVertical="8dp"/>
-
-                <TextView
+                <LinearLayout
                     android:id="@+id/menuPengaturan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Pengaturan"
-                    android:textColor="#555555"
-                    android:textSize="16sp"
                     android:paddingVertical="14dp"
-                    android:drawablePadding="16dp"
-                    android:drawableStart="@android:drawable/ic_menu_preferences"
                     android:gravity="center_vertical"
-                    android:fontFamily="@font/robotosemibold"/>
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/settings" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Pengaturan"
+                        android:textColor="#555555"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/robotosemibold"/>
+                </LinearLayout>
 
-                <TextView
+                <LinearLayout
                     android:id="@+id/menuLogout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Keluar (Logout)"
-                    android:textColor="#FF5252"
-                    android:textSize="16sp"
                     android:paddingVertical="14dp"
-                    android:drawablePadding="16dp"
-                    android:drawableStart="@android:drawable/ic_menu_close_clear_cancel"
                     android:gravity="center_vertical"
-                    android:fontFamily="@font/robotosemibold"/>
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/logout" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Keluar"
+                        android:textColor="#555555"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/robotosemibold"/>
+                </LinearLayout>
 
             </LinearLayout>
         </ScrollView>
