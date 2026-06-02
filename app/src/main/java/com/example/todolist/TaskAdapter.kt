@@ -1,6 +1,8 @@
 package com.example.todolist
 
 import android.graphics.Color
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,17 +10,18 @@ import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-// Pastikan import ini mengarah ke folder model yang benar
 import com.example.todolist.model.TaskData
 
 class TaskAdapter(
     private var taskList: List<TaskData>,
-    private val onFlagColorChanged: (TaskData, String) -> Unit
+    private val onFlagColorChanged: (TaskData, String) -> Unit,
+    private val onTaskCompleted: (TaskData, Int) -> Unit // WAJIB ADA: Jembatan untuk menghapus task
 ) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
     class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvTitle: TextView = itemView.findViewById(R.id.tvTaskTitle)
         val imgFlag: ImageView = itemView.findViewById(R.id.imgFlag)
+        val imgCheckbox: ImageView = itemView.findViewById(R.id.imgCheckbox)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
@@ -30,12 +33,37 @@ class TaskAdapter(
         val task = taskList[position]
 
         holder.tvTitle.text = "${task.title}"
-
         val colorHex = task.flagColor ?: "#BDBDBD"
         holder.imgFlag.setColorFilter(Color.parseColor(colorHex))
 
         holder.imgFlag.setOnClickListener { view ->
             showFlagPopup(view, holder.imgFlag, task)
+        }
+
+        // --- LOGIKA TAMPILAN CHECKBOX ---
+        if (task.is_completed == 1) {
+            // Jika masuk riwayat (sudah selesai), kunci jadi centang permanen
+            holder.imgCheckbox.setImageResource(android.R.drawable.checkbox_on_background)
+            holder.tvTitle.paintFlags = holder.tvTitle.paintFlags or android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
+            holder.tvTitle.setTextColor(Color.parseColor("#A0A0A0"))
+            holder.imgCheckbox.isEnabled = false // Tidak bisa diklik lagi
+        } else {
+            // Jika di halaman utama (belum selesai), tampilkan lingkaran kosong
+            holder.imgCheckbox.setImageResource(R.drawable.ic_circle_outline)
+            holder.tvTitle.paintFlags = holder.tvTitle.paintFlags and android.graphics.Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            holder.tvTitle.setTextColor(Color.parseColor("#333333"))
+            holder.imgCheckbox.isEnabled = true
+
+            // Efek animasi 1 detik sebelum hilang
+            holder.imgCheckbox.setOnClickListener {
+                holder.imgCheckbox.setImageResource(android.R.drawable.checkbox_on_background)
+                holder.tvTitle.paintFlags = holder.tvTitle.paintFlags or android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
+                holder.tvTitle.setTextColor(Color.parseColor("#A0A0A0"))
+
+                Handler(Looper.getMainLooper()).postDelayed({
+                    onTaskCompleted(task, holder.adapterPosition)
+                }, 1000)
+            }
         }
     }
 
@@ -63,6 +91,7 @@ class TaskAdapter(
         popupView.findViewById<ImageView>(R.id.flagPurple).setOnClickListener { updateColor("#AB47BC") }
         popupView.findViewById<ImageView>(R.id.flagBlue).setOnClickListener { updateColor("#42A5F5") }
         popupView.findViewById<ImageView>(R.id.flagGreen).setOnClickListener { updateColor("#66BB6A") }
+
         popupWindow.showAsDropDown(anchorView, 0, 10)
     }
 
@@ -71,5 +100,16 @@ class TaskAdapter(
     fun updateData(newData: List<TaskData>) {
         taskList = newData
         notifyDataSetChanged()
+    }
+
+    fun removeTask(position: Int) {
+        if (position in taskList.indices) {
+            val mutableList = taskList.toMutableList()
+            mutableList.removeAt(position)
+            taskList = mutableList
+            notifyItemRemoved(position)
+            // Fix bug index bergeser di RecyclerView
+            notifyItemRangeChanged(position, taskList.size)
+        }
     }
 }

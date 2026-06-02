@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast // TAMBAHAN IMPORT INI AGAR TOAST TERBACA
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.todolist.databinding.ActivityMainBinding
@@ -47,8 +48,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         // ==========================================
-        //         LOGIC SIDEBAR MENU LOGOUT
+        //         LOGIC SIDEBAR MENU
         // ==========================================
+        binding.history.setOnClickListener {
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+            replaceFragment(HistoryFragment())
+
+            // Matikan semua warna indikator bawah saat di mode Riwayat
+            updateBottomNav("None")
+        }
+
+        // JIKA MENU LOGOUT DITEKAN
         binding.menuLogout.setOnClickListener {
             binding.drawerLayout.closeDrawer(GravityCompat.START)
 

@@ -7,6 +7,7 @@ import com.example.todolist.model.LoginResponse
 import com.example.todolist.model.TaskRequest
 import com.example.todolist.model.TaskResponse
 import com.example.todolist.model.TaskData
+import com.example.todolist.model.TaskListResponse // TAMBAHKAN IMPORT INI
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -16,7 +17,6 @@ import retrofit2.http.PATCH
 import retrofit2.http.Path
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
-
 
 interface ApiService {
 
@@ -39,10 +39,21 @@ interface ApiService {
     fun getTasks(@Header("Authorization") token: String): Call<List<TaskData>>
 
     @FormUrlEncoded
-    @PATCH("api/tasks/{id}/color") // Sesuaikan jika ada prefix /api/
+    @PATCH("api/tasks/{id}/color")
     fun updateTaskColor(
         @Header("Authorization") token: String,
         @Path("id") taskId: Int,
         @Field("flag_color") flagColor: String
     ): Call<TaskResponse>
+
+    @FormUrlEncoded
+    @PATCH("api/tasks/{id}/complete") // Pastikan kamu membuat route ini di Laravel nantinya
+    fun completeTask(
+        @Header("Authorization") token: String,
+        @Path("id") taskId: Int,
+        @Field("is_completed") isCompleted: Int = 1
+    ): Call<TaskResponse>
+
+    @GET("api/tasks/completed")
+    fun getCompletedTasks(@Header("Authorization") token: String): Call<List<TaskData>>
 }

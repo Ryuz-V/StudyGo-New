@@ -47,9 +47,28 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        taskAdapter = TaskAdapter(emptyList()) { task, newColor ->
-            updateTaskColorToServer(task.id, newColor)
-        }
+        // INISIALISASI ADAPTER YANG BENAR (Mencegah Layar Blank!)
+        taskAdapter = TaskAdapter(
+            emptyList(),
+            onFlagColorChanged = { task, newColor ->
+                updateTaskColorToServer(task.id, newColor)
+            },
+            onTaskCompleted = { task, position ->
+                // Hapus dari layar
+                taskAdapter.removeTask(position)
+
+                // Laporkan ke Laravel
+                completeTaskOnServer(task.id)
+
+                // Jika list habis, tampilkan gambar kosong
+                if (taskAdapter.itemCount == 0) {
+                    binding.rvTasks.visibility = View.GONE
+                    binding.imgEmpty.visibility = View.VISIBLE
+                    binding.tvEmptyTitle.visibility = View.VISIBLE
+                    binding.tvEmptySubtitle.visibility = View.VISIBLE
+                }
+            }
+        )
 
         binding.rvTasks.layoutManager = LinearLayoutManager(requireContext())
         binding.rvTasks.adapter = taskAdapter
@@ -72,10 +91,7 @@ class HomeFragment : Fragment() {
         val sharedPref = requireContext().getSharedPreferences("SesiPengguna", Context.MODE_PRIVATE)
         val token = sharedPref.getString("token", "")
 
-        if (token.isNullOrEmpty()) {
-            Toast.makeText(requireContext(), "Token tidak ditemukan!", Toast.LENGTH_SHORT).show()
-            return
-        }
+        if (token.isNullOrEmpty()) return
 
         val api = RetrofitClient.instance
 
@@ -97,13 +113,10 @@ class HomeFragment : Fragment() {
                         binding.tvEmptyTitle.visibility = View.VISIBLE
                         binding.tvEmptySubtitle.visibility = View.VISIBLE
                     }
-                } else {
-                    Toast.makeText(requireContext(), "Error: ${response.code()}", Toast.LENGTH_SHORT).show()
                 }
             }
-
             override fun onFailure(call: Call<List<TaskData>>, t: Throwable) {
-                Toast.makeText(requireContext(), "Koneksi Gagal: ${t.message}", Toast.LENGTH_SHORT).show()
+                Log.e("FETCH_TASKS", "Gagal: ${t.message}")
             }
         })
     }
@@ -148,13 +161,11 @@ class HomeFragment : Fragment() {
 
                 btnCalendar.setColorFilter(Color.parseColor("#4285F4"))
             }, year, month, day)
-
             datePickerDialog.show()
         }
 
         btnSubmit.setOnClickListener {
             val title = etTitle.text.toString().trim()
-
             if (title.isEmpty()) {
                 Toast.makeText(requireContext(), "Apa rencana hari ini?", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -174,51 +185,50 @@ class HomeFragment : Fragment() {
 
             val sharedPref = requireContext().getSharedPreferences("SesiPengguna", Context.MODE_PRIVATE)
             val token = sharedPref.getString("token", "") ?: ""
-            val api = RetrofitClient.instance
 
-            api.sendTaskData("Bearer $token", taskData).enqueue(object : Callback<TaskResponse> {
+            RetrofitClient.instance.sendTaskData("Bearer $token", taskData).enqueue(object : Callback<TaskResponse> {
                 override fun onResponse(call: Call<TaskResponse>, response: Response<TaskResponse>) {
                     if (response.isSuccessful) {
                         Toast.makeText(requireContext(), "Task berhasil ditambahkan!", Toast.LENGTH_SHORT).show()
                         bottomSheetDialog.dismiss()
-                        fetchTasks()
+                        fetchTasks() // Refresh list otomatis
                     } else {
-                        Toast.makeText(requireContext(), "Gagal: ${response.code()}", Toast.LENGTH_LONG).show()
                         btnSubmit.isEnabled = true
                         btnSubmit.alpha = 1.0f
                     }
                 }
-
                 override fun onFailure(call: Call<TaskResponse>, t: Throwable) {
-                    Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_LONG).show()
                     btnSubmit.isEnabled = true
                     btnSubmit.alpha = 1.0f
                 }
             })
         }
-
         bottomSheetDialog.show()
     }
 
     private fun updateTaskColorToServer(taskId: Int, newColor: String) {
-        Log.d("CEK_KIRIM_API", "Mencoba update Task ID: $taskId ke warna $newColor")
         val sharedPref = requireContext().getSharedPreferences("SesiPengguna", Context.MODE_PRIVATE)
         val token = sharedPref.getString("token", "") ?: ""
-
         if (token.isEmpty()) return
-        val api = RetrofitClient.instance
 
-        api.updateTaskColor("Bearer $token", taskId, newColor).enqueue(object : Callback<TaskResponse> {
+        RetrofitClient.instance.updateTaskColor("Bearer $token", taskId, newColor).enqueue(object : Callback<TaskResponse> {
+            override fun onResponse(call: Call<TaskResponse>, response: Response<TaskResponse>) {}
+            override fun onFailure(call: Call<TaskResponse>, t: Throwable) {}
+        })
+    }
+
+    private fun completeTaskOnServer(taskId: Int) {
+        val sharedPref = requireContext().getSharedPreferences("SesiPengguna", Context.MODE_PRIVATE)
+        val token = sharedPref.getString("token", "") ?: ""
+        if (token.isEmpty()) return
+
+        RetrofitClient.instance.completeTask("Bearer $token", taskId, 1).enqueue(object : Callback<TaskResponse> {
             override fun onResponse(call: Call<TaskResponse>, response: Response<TaskResponse>) {
                 if (response.isSuccessful) {
-                    Log.d("API_COLOR", "Warna bendera berhasil disimpan!")
-                } else {
-                    Log.e("API_COLOR_ERROR", "Gagal: ${response.code()}")
+                    Toast.makeText(requireContext(), "Tugas selesai!", Toast.LENGTH_SHORT).show()
                 }
             }
-            override fun onFailure(call: Call<TaskResponse>, t: Throwable) {
-                Log.e("API_COLOR_FAIL", "Error koneksi: ${t.message}")
-            }
+            override fun onFailure(call: Call<TaskResponse>, t: Throwable) {}
         })
     }
 
