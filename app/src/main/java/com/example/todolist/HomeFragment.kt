@@ -116,7 +116,11 @@ class HomeFragment : Fragment() {
                 }
             }
             override fun onFailure(call: Call<List<TaskData>>, t: Throwable) {
-                Log.e("FETCH_TASKS", "Gagal: ${t.message}")
+                // Tambahkan isAdded agar aplikasi tidak crash kalau halamannya sudah ditutup
+                if (isAdded && context != null) {
+                    Toast.makeText(requireContext(), "Gagal terhubung ke server", Toast.LENGTH_SHORT).show()
+                    Log.e("API_ERROR", "Error: ${t.message}") // Ini penting untuk dicek di Logcat nanti!
+                }
             }
         })
     }

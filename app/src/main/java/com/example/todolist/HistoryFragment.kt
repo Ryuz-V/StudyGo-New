@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.databinding.FragmentHistoryBinding
@@ -32,7 +31,7 @@ class HistoryFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        super.onViewCreated(view, savedInstanceState) // Cukup satu baris ini saja
 
         // Gunakan adapter yang sama, tapi tanpa interaksi klik complete
         historyAdapter = TaskAdapter(
@@ -43,6 +42,21 @@ class HistoryFragment : Fragment() {
 
         binding.rvHistory.layoutManager = LinearLayoutManager(requireContext())
         binding.rvHistory.adapter = historyAdapter
+
+        // 1. Sembunyikan Bottom Navigation Bar
+        val bottomNav = requireActivity().findViewById<View>(R.id.bottomNav)
+        bottomNav.visibility = View.GONE
+
+        // 2. Logika saat tombol kembali (Back) diklik
+        binding.btnBackHistory.setOnClickListener {
+            // Kembali ke halaman Home (Tugas)
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, HomeFragment())
+                .commit()
+
+            // Munculkan Bottom Navigation Bar kembali
+            bottomNav.visibility = View.VISIBLE
+        }
 
         fetchCompletedTasks()
     }
@@ -79,6 +93,11 @@ class HistoryFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+
+        // Memastikan Navbar muncul lagi jika fragment ini dihancurkan/ditutup (misal lewat tombol back HP)
+        val bottomNav = activity?.findViewById<View>(R.id.bottomNav)
+        bottomNav?.visibility = View.VISIBLE
+
         _binding = null
     }
 }

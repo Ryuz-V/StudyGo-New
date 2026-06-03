@@ -4,6 +4,7 @@ import com.example.todolist.model.SocialLoginRequest
 import com.example.todolist.model.ManualLoginRequest
 import com.example.todolist.model.RegisterRequest
 import com.example.todolist.model.LoginResponse
+import com.example.todolist.model.StatsResponse
 import com.example.todolist.model.TaskRequest
 import com.example.todolist.model.TaskResponse
 import com.example.todolist.model.TaskData
@@ -56,4 +57,7 @@ interface ApiService {
 
     @GET("api/tasks/completed")
     fun getCompletedTasks(@Header("Authorization") token: String): Call<List<TaskData>>
+
+    @GET("api/tasks/stats")
+    fun getTaskStats(@Header("Authorization") token: String): Call<StatsResponse>
 }

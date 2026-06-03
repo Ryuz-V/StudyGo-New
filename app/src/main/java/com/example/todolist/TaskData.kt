@@ -8,7 +8,9 @@ data class TaskData(
 
     val title: String,
 
-    // KITA KEMBALIKAN KE BENTUK CLASS CATEGORY
+    // TAMBAHAN: Menangkap tanggal deadline dari Laravel
+    val deadline: String?,
+
     val category: Category?,
 
     val is_completed: Int,
@@ -22,7 +24,6 @@ data class TaskListResponse(
     val data: List<TaskData>
 )
 
-// Class ini akan menangkap objek kategori dari Laravel
 data class Category(
     val id: Int,
     val name: String

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF">
@@ -26,15 +27,17 @@
             android:src="@drawable/triangle_arrow"
             android:rotation="90"
             app:tint="#888888"
-            android:padding="4dp"/> <TextView
-        android:id="@+id/tvBulanTahun"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="MEI  2026"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#333333"
-        android:layout_marginStart="12dp"/>
+            android:padding="4dp"/>
+
+        <TextView
+            android:id="@+id/tvBulanTahun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MEI  2026"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_marginStart="12dp"/>
 
         <ImageView
             android:id="@+id/btnBulanKanan"
@@ -55,7 +58,12 @@
             android:src="@drawable/arrow_up"
             app:tint="#888888"/>
 
-        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_marginStart="16dp" android:src="@drawable/menu_vertical" app:tint="#888888"/>
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/menu_vertical"
+            app:tint="#888888"/>
     </LinearLayout>
 
     <FrameLayout
@@ -64,13 +72,22 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/headerLayout">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="333dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="30dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/calender_bakcground" />
+
         <CalendarView
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/CustomCalendar"
             android:firstDayOfWeek="2"
-            android:layout_marginTop="-42dp" /> </FrameLayout>
+            android:layout_marginTop="-48dp" />
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/weekViewLayout"
@@ -93,14 +110,27 @@
     </LinearLayout>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/pulseRing"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        app:cardBackgroundColor="#8033DBCC"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/fabAdd"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         app:cardBackgroundColor="#33dbcc"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="0dp"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="10dp"
         app:strokeWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">

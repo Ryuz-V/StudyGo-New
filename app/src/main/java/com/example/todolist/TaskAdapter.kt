@@ -20,6 +20,7 @@ class TaskAdapter(
 
     class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvTitle: TextView = itemView.findViewById(R.id.tvTaskTitle)
+        val tvDate: TextView = itemView.findViewById(R.id.tvTaskDate) // TAMBAHAN BARU
         val imgFlag: ImageView = itemView.findViewById(R.id.imgFlag)
         val imgCheckbox: ImageView = itemView.findViewById(R.id.imgCheckbox)
     }
@@ -33,6 +34,29 @@ class TaskAdapter(
         val task = taskList[position]
 
         holder.tvTitle.text = "${task.title}"
+        if (!task.deadline.isNullOrEmpty()) {
+            try {
+                // Asumsi format dari Laravel adalah YYYY-MM-DD
+                val parts = task.deadline.split("-")
+                if (parts.size >= 3) {
+                    val year = parts[0]
+                    val month = parts[1]
+                    val day = parts[2]
+                    // Ambil 2 digit pertama dari day saja (jaga-jaga kalau ada jam/waktu di belakangnya)
+                    val cleanDay = day.substring(0, 2)
+
+                    holder.tvDate.text = "$cleanDay-$month"
+                    holder.tvDate.visibility = View.VISIBLE
+                } else {
+                    holder.tvDate.visibility = View.GONE
+                }
+            } catch (e: Exception) {
+                holder.tvDate.visibility = View.GONE
+            }
+        } else {
+            // Jika tidak ada deadline (misalnya tugas dibuat tanpa memilih kalender)
+            holder.tvDate.visibility = View.GONE
+        }
         val colorHex = task.flagColor ?: "#BDBDBD"
         holder.imgFlag.setColorFilter(Color.parseColor(colorHex))
 
@@ -42,13 +66,11 @@ class TaskAdapter(
 
         // --- LOGIKA TAMPILAN CHECKBOX ---
         if (task.is_completed == 1) {
-            // Jika masuk riwayat (sudah selesai), kunci jadi centang permanen
-            holder.imgCheckbox.setImageResource(android.R.drawable.checkbox_on_background)
+            holder.imgCheckbox.setImageResource(R.drawable.complete)
             holder.tvTitle.paintFlags = holder.tvTitle.paintFlags or android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
             holder.tvTitle.setTextColor(Color.parseColor("#A0A0A0"))
-            holder.imgCheckbox.isEnabled = false // Tidak bisa diklik lagi
+            holder.imgCheckbox.isEnabled = false
         } else {
-            // Jika di halaman utama (belum selesai), tampilkan lingkaran kosong
             holder.imgCheckbox.setImageResource(R.drawable.ic_circle_outline)
             holder.tvTitle.paintFlags = holder.tvTitle.paintFlags and android.graphics.Paint.STRIKE_THRU_TEXT_FLAG.inv()
             holder.tvTitle.setTextColor(Color.parseColor("#333333"))
@@ -56,7 +78,7 @@ class TaskAdapter(
 
             // Efek animasi 1 detik sebelum hilang
             holder.imgCheckbox.setOnClickListener {
-                holder.imgCheckbox.setImageResource(android.R.drawable.checkbox_on_background)
+                holder.imgCheckbox.setImageResource(R.drawable.complete)
                 holder.tvTitle.paintFlags = holder.tvTitle.paintFlags or android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
                 holder.tvTitle.setTextColor(Color.parseColor("#A0A0A0"))
 

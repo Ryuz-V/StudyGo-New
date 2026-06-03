@@ -68,6 +68,13 @@ class CalendarFragment : Fragment() {
                 binding.btnToggleCalendar.rotation = 0f
             }
         }
+        // 6. Jalankan Animasi Pulse pada FAB
+        try {
+            val pulseAnimation = android.view.animation.AnimationUtils.loadAnimation(requireContext(), R.anim.pulse_anim)
+            binding.pulseRing.startAnimation(pulseAnimation)
+        } catch (e: Exception) {
+            android.util.Log.e("ANIMATION_ERROR", "Animasi pulse_anim tidak ditemukan")
+        }
     }
 
     // Fungsi otomatis untuk memformat dan menampilkan teks bulan (misal: "MEI 2026")
