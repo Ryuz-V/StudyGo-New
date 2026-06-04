@@ -37,6 +37,7 @@ class CalendarFragment : Fragment() {
         // 2. Logika Panah GANTI BULAN KIRI (Bulan Sebelumnya)
         binding.btnBulanKiri.setOnClickListener {
             currentCalendar.add(Calendar.MONTH, -1)
+            currentCalendar.set(Calendar.DAY_OF_MONTH, 1) // Reset ke tanggal 1
             binding.calendarView.date = currentCalendar.timeInMillis
             updateHeaderBulan()
         }
@@ -44,6 +45,7 @@ class CalendarFragment : Fragment() {
         // 3. Logika Panah GANTI BULAN KANAN (Bulan Selanjutnya)
         binding.btnBulanKanan.setOnClickListener {
             currentCalendar.add(Calendar.MONTH, 1)
+            currentCalendar.set(Calendar.DAY_OF_MONTH, 1) // Reset ke tanggal 1
             binding.calendarView.date = currentCalendar.timeInMillis
             updateHeaderBulan()
         }
@@ -54,20 +56,21 @@ class CalendarFragment : Fragment() {
             updateHeaderBulan()
         }
 
-// 5. Logika Panah Toggle (Sembunyikan/Munculkan Kalender)
+        // 5. Logika Panah Toggle (Sembunyikan/Munculkan Kalender)
         binding.btnToggleCalendar.setOnClickListener {
             isWeekView = !isWeekView
 
             if (isWeekView) {
-                binding.calendarContainer.visibility = View.GONE // PERUBAHAN DI SINI
+                binding.calendarContainer.visibility = View.GONE
                 binding.weekViewLayout.visibility = View.VISIBLE
                 binding.btnToggleCalendar.rotation = 180f
             } else {
-                binding.calendarContainer.visibility = View.VISIBLE // PERUBAHAN DI SINI
+                binding.calendarContainer.visibility = View.VISIBLE
                 binding.weekViewLayout.visibility = View.GONE
                 binding.btnToggleCalendar.rotation = 0f
             }
         }
+
         // 6. Jalankan Animasi Pulse pada FAB
         try {
             val pulseAnimation = android.view.animation.AnimationUtils.loadAnimation(requireContext(), R.anim.pulse_anim)
@@ -89,6 +92,4 @@ class CalendarFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

@@ -28,7 +28,7 @@
                 android:layout_height="36dp"
                 android:paddingHorizontal="20dp"
                 android:gravity="center"
-                android:text="Wishlist"
+                android:text="Semuanya"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 android:background="@drawable/category_selected"

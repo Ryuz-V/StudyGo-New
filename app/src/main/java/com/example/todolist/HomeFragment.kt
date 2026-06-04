@@ -36,6 +36,10 @@ class HomeFragment : Fragment() {
 
     private lateinit var taskAdapter: TaskAdapter
 
+    // VARIABEL BARU: Untuk menyimpan semua tugas & kategori saat ini
+    private var allTasks: List<TaskData> = emptyList()
+    private var currentCategory: String = "Semuanya" // Atau "Wishlist" sesuai teks di XML kamu
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,25 +51,22 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // INISIALISASI ADAPTER YANG BENAR (Mencegah Layar Blank!)
         taskAdapter = TaskAdapter(
             emptyList(),
             onFlagColorChanged = { task, newColor ->
                 updateTaskColorToServer(task.id, newColor)
             },
             onTaskCompleted = { task, position ->
-                // Hapus dari layar
                 taskAdapter.removeTask(position)
-
-                // Laporkan ke Laravel
                 completeTaskOnServer(task.id)
 
-                // Jika list habis, tampilkan gambar kosong
+                // Hapus juga dari allTasks agar data tetap sinkron
+                val updatedList = allTasks.toMutableList()
+                updatedList.removeAll { it.id == task.id }
+                allTasks = updatedList
+
                 if (taskAdapter.itemCount == 0) {
-                    binding.rvTasks.visibility = View.GONE
-                    binding.imgEmpty.visibility = View.VISIBLE
-                    binding.tvEmptyTitle.visibility = View.VISIBLE
-                    binding.tvEmptySubtitle.visibility = View.VISIBLE
+                    showEmptyState(true)
                 }
             }
         )
@@ -84,7 +85,64 @@ class HomeFragment : Fragment() {
             Log.e("ANIMATION_ERROR", "Animasi pulse_anim tidak ditemukan")
         }
 
+        // Panggil fungsi untuk mengaktifkan klik pada kategori
+        setupCategoryFilters()
+
         fetchTasks()
+    }
+
+    // FUNGSI BARU: Mengaktifkan klik di menu kategori atas
+    private fun setupCategoryFilters() {
+        // Mengambil container LinearLayout dari dalam HorizontalScrollView
+        val categoryContainer = binding.categoryScroll.getChildAt(0) as ViewGroup
+
+        for (i in 0 until categoryContainer.childCount) {
+            val tvCategory = categoryContainer.getChildAt(i) as TextView
+
+            tvCategory.setOnClickListener {
+                // 1. Matikan semua warna kategori
+                for (j in 0 until categoryContainer.childCount) {
+                    val tv = categoryContainer.getChildAt(j) as TextView
+                    tv.setBackgroundResource(R.drawable.category_unselected)
+                }
+
+                // 2. Nyalakan warna kategori yang diklik
+                tvCategory.setBackgroundResource(R.drawable.category_selected)
+
+                // 3. Filter data berdasarkan nama kategori
+                currentCategory = tvCategory.text.toString()
+                filterTasks()
+            }
+        }
+    }
+
+    // FUNGSI BARU: Logika memfilter tugas
+    private fun filterTasks() {
+        val filteredList = if (currentCategory == "Semuanya" || currentCategory == "Wishlist") {
+            allTasks
+        } else {
+            // Cocokkan nama kategori tugas dengan kategori yang diklik
+            allTasks.filter { it.category?.name?.equals(currentCategory, ignoreCase = true) == true }
+        }
+
+        taskAdapter.updateData(filteredList)
+
+        // Cek apakah hasil filter kosong
+        showEmptyState(filteredList.isEmpty())
+    }
+
+    private fun showEmptyState(isEmpty: Boolean) {
+        if (isEmpty) {
+            binding.rvTasks.visibility = View.GONE
+            binding.imgEmpty.visibility = View.VISIBLE
+            binding.tvEmptyTitle.visibility = View.VISIBLE
+            binding.tvEmptySubtitle.visibility = View.VISIBLE
+        } else {
+            binding.rvTasks.visibility = View.VISIBLE
+            binding.imgEmpty.visibility = View.GONE
+            binding.tvEmptyTitle.visibility = View.GONE
+            binding.tvEmptySubtitle.visibility = View.GONE
+        }
     }
 
     private fun fetchTasks() {
@@ -93,33 +151,19 @@ class HomeFragment : Fragment() {
 
         if (token.isNullOrEmpty()) return
 
-        val api = RetrofitClient.instance
-
-        api.getTasks("Bearer $token").enqueue(object : Callback<List<TaskData>> {
+        RetrofitClient.instance.getTasks("Bearer $token").enqueue(object : Callback<List<TaskData>> {
             override fun onResponse(call: Call<List<TaskData>>, response: Response<List<TaskData>>) {
                 if (response.isSuccessful) {
                     val tasks = response.body() ?: emptyList()
 
-                    if (tasks.isNotEmpty()) {
-                        binding.rvTasks.visibility = View.VISIBLE
-                        binding.imgEmpty.visibility = View.GONE
-                        binding.tvEmptyTitle.visibility = View.GONE
-                        binding.tvEmptySubtitle.visibility = View.GONE
-
-                        taskAdapter.updateData(tasks)
-                    } else {
-                        binding.rvTasks.visibility = View.GONE
-                        binding.imgEmpty.visibility = View.VISIBLE
-                        binding.tvEmptyTitle.visibility = View.VISIBLE
-                        binding.tvEmptySubtitle.visibility = View.VISIBLE
-                    }
+                    // Simpan ke allTasks, lalu jalankan filter
+                    allTasks = tasks
+                    filterTasks()
                 }
             }
             override fun onFailure(call: Call<List<TaskData>>, t: Throwable) {
-                // Tambahkan isAdded agar aplikasi tidak crash kalau halamannya sudah ditutup
                 if (isAdded && context != null) {
                     Toast.makeText(requireContext(), "Gagal terhubung ke server", Toast.LENGTH_SHORT).show()
-                    Log.e("API_ERROR", "Error: ${t.message}") // Ini penting untuk dicek di Logcat nanti!
                 }
             }
         })
@@ -141,9 +185,16 @@ class HomeFragment : Fragment() {
             val popupMenu = PopupMenu(requireContext(), v)
             popupMenu.menu.add("Matematika")
             popupMenu.menu.add("IPA")
+            popupMenu.menu.add("IPS")
             popupMenu.menu.add("Sejarah")
-            popupMenu.menu.add("Bahasa Indonesia")
-            popupMenu.menu.add("Pemrograman Web")
+            popupMenu.menu.add("Informatika")
+            popupMenu.menu.add("B. Inggris")
+            popupMenu.menu.add("B. Indonesia")
+            popupMenu.menu.add("PKN")
+            popupMenu.menu.add("Agama")
+            popupMenu.menu.add("Seni Budaya")
+            popupMenu.menu.add("Penjas")
+            popupMenu.menu.add("Lainnya")
 
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 tvCategory.text = menuItem.title
@@ -178,8 +229,17 @@ class HomeFragment : Fragment() {
             btnSubmit.isEnabled = false
             btnSubmit.alpha = 0.5f
 
+            // LOGIKA DEFAULT "Lainnya"
+            var selectedCatName = tvCategory.text.toString()
+            if (selectedCatName == "Tidak Ada Kategori" || selectedCatName.isEmpty()) {
+                selectedCatName = "Lainnya"
+            }
+
+            // Ubah nama kategori menjadi ID untuk dikirim ke Laravel
+            val categoryId = getCategoryIdFromName(selectedCatName)
+
             val taskData = TaskRequest(
-                category = tvCategory.text.toString(),
+                category_id = categoryId, // MENGIRIM ID BUKAN STRING
                 title = title,
                 description = "",
                 deadline = selectedDate,
@@ -210,6 +270,25 @@ class HomeFragment : Fragment() {
         bottomSheetDialog.show()
     }
 
+    // FUNGSI BARU: Mengubah teks kategori menjadi ID Database
+    private fun getCategoryIdFromName(name: String): Int {
+        return when (name) {
+            "Lainnya" -> 1
+            "Matematika" -> 2
+            "IPA" -> 3
+            "IPS" -> 4
+            "Sejarah" -> 5
+            "Informatika" -> 6
+            "B. Inggris" -> 7
+            "B. Indonesia" -> 8
+            "PKN" -> 9
+            "Agama" -> 10
+            "Seni Budaya" -> 11
+            "Penjas" -> 12
+            else -> 1 // Default jika tidak ketemu
+        }
+    }
+
     private fun updateTaskColorToServer(taskId: Int, newColor: String) {
         val sharedPref = requireContext().getSharedPreferences("SesiPengguna", Context.MODE_PRIVATE)
         val token = sharedPref.getString("token", "") ?: ""
@@ -227,11 +306,7 @@ class HomeFragment : Fragment() {
         if (token.isEmpty()) return
 
         RetrofitClient.instance.completeTask("Bearer $token", taskId, 1).enqueue(object : Callback<TaskResponse> {
-            override fun onResponse(call: Call<TaskResponse>, response: Response<TaskResponse>) {
-                if (response.isSuccessful) {
-                    Toast.makeText(requireContext(), "Tugas selesai!", Toast.LENGTH_SHORT).show()
-                }
-            }
+            override fun onResponse(call: Call<TaskResponse>, response: Response<TaskResponse>) {}
             override fun onFailure(call: Call<TaskResponse>, t: Throwable) {}
         })
     }

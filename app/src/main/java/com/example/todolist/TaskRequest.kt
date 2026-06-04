@@ -1,7 +1,7 @@
 package com.example.todolist.model
 
 data class TaskRequest(
-    val category: String,
+    val category_id: Int, // Ubah dari String category menjadi Int category_id
     val title: String,
     val description: String,
     val deadline: String,

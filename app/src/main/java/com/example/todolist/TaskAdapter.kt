@@ -15,12 +15,12 @@ import com.example.todolist.model.TaskData
 class TaskAdapter(
     private var taskList: List<TaskData>,
     private val onFlagColorChanged: (TaskData, String) -> Unit,
-    private val onTaskCompleted: (TaskData, Int) -> Unit // WAJIB ADA: Jembatan untuk menghapus task
+    private val onTaskCompleted: (TaskData, Int) -> Unit
 ) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
     class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvTitle: TextView = itemView.findViewById(R.id.tvTaskTitle)
-        val tvDate: TextView = itemView.findViewById(R.id.tvTaskDate) // TAMBAHAN BARU
+        val tvDate: TextView = itemView.findViewById(R.id.tvTaskDate)
         val imgFlag: ImageView = itemView.findViewById(R.id.imgFlag)
         val imgCheckbox: ImageView = itemView.findViewById(R.id.imgCheckbox)
     }
@@ -42,7 +42,6 @@ class TaskAdapter(
                     val year = parts[0]
                     val month = parts[1]
                     val day = parts[2]
-                    // Ambil 2 digit pertama dari day saja (jaga-jaga kalau ada jam/waktu di belakangnya)
                     val cleanDay = day.substring(0, 2)
 
                     holder.tvDate.text = "$cleanDay-$month"
@@ -54,7 +53,6 @@ class TaskAdapter(
                 holder.tvDate.visibility = View.GONE
             }
         } else {
-            // Jika tidak ada deadline (misalnya tugas dibuat tanpa memilih kalender)
             holder.tvDate.visibility = View.GONE
         }
         val colorHex = task.flagColor ?: "#BDBDBD"
