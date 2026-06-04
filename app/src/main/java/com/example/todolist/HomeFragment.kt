@@ -93,24 +93,37 @@ class HomeFragment : Fragment() {
 
     // FUNGSI BARU: Mengaktifkan klik di menu kategori atas
     private fun setupCategoryFilters() {
-        // Mengambil container LinearLayout dari dalam HorizontalScrollView
         val categoryContainer = binding.categoryScroll.getChildAt(0) as ViewGroup
 
+        // 1. Set warna awal saat aplikasi baru dibuka (Semuanya = Terpilih)
         for (i in 0 until categoryContainer.childCount) {
-            val tvCategory = categoryContainer.getChildAt(i) as TextView
+            val tv = categoryContainer.getChildAt(i) as TextView
 
-            tvCategory.setOnClickListener {
-                // 1. Matikan semua warna kategori
+            if (tv.text.toString() == currentCategory) {
+                // STATE TERPILIH: Background transparan, Teks warna utama
+                tv.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#2033DBCC"))
+                tv.setTextColor(Color.parseColor("#33dbcc"))
+            } else {
+                // STATE TIDAK TERPILIH: Background warna utama, Teks putih
+                tv.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#33dbcc"))
+                tv.setTextColor(Color.parseColor("#FFFFFF"))
+            }
+
+            // 2. Logika saat kategori diklik
+            tv.setOnClickListener {
+                // A. Kembalikan semua kategori ke State Tidak Terpilih (Warna Utama Solid)
                 for (j in 0 until categoryContainer.childCount) {
-                    val tv = categoryContainer.getChildAt(j) as TextView
-                    tv.setBackgroundResource(R.drawable.category_unselected)
+                    val unselectedTv = categoryContainer.getChildAt(j) as TextView
+                    unselectedTv.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#33dbcc"))
+                    unselectedTv.setTextColor(Color.parseColor("#FFFFFF"))
                 }
 
-                // 2. Nyalakan warna kategori yang diklik
-                tvCategory.setBackgroundResource(R.drawable.category_selected)
+                // B. Ubah kategori yang sedang diklik menjadi State Terpilih (Transparan)
+                tv.backgroundTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#2033DBCC"))
+                tv.setTextColor(Color.parseColor("#33dbcc"))
 
-                // 3. Filter data berdasarkan nama kategori
-                currentCategory = tvCategory.text.toString()
+                // C. Simpan kategori saat ini dan jalankan filter data
+                currentCategory = tv.text.toString()
                 filterTasks()
             }
         }
