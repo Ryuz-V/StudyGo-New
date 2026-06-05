@@ -6,5 +6,10 @@ data class TaskRequest(
     val description: String,
     val deadline: String,
     val status: String,
-    val priority: String
+    val priority: String,
+    val subtasks: List<String>
+)
+
+data class SubtaskRequest(
+    val title: String
 )

@@ -38,6 +38,7 @@
         <activity
             android:name=".Profil"
             android:exported="false" />
+        <activity android:name=".TaskDetailActivity" />
     </application>
 
 </manifest>

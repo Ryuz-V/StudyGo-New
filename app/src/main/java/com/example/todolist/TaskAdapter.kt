@@ -85,6 +85,31 @@ class TaskAdapter(
                 }, 1000)
             }
         }
+        // --- LOGIKA SAAT ITEM TASK DIKLIK ---
+// --- LOGIKA SAAT ITEM TASK DIKLIK ---
+        holder.itemView.setOnClickListener {
+            val intent = android.content.Intent(it.context, TaskDetailActivity::class.java)
+
+            // Kirim data task utama ke halaman detail
+            intent.putExtra("TASK_ID", task.id)
+            intent.putExtra("TASK_TITLE", task.title)
+            intent.putExtra("TASK_CATEGORY", task.category?.name ?: "Lainnya")
+            intent.putExtra("TASK_DATE", task.deadline ?: "Tidak diatur")
+
+            // LOGIKA BARU: Kumpulkan data subtask untuk dikirim ke halaman detail
+            val subtaskTitles = arrayListOf<String>()
+            val subtaskStatus = arrayListOf<Int>()
+
+            task.subtasks?.forEach { subtask ->
+                subtaskTitles.add(subtask.title)
+                subtaskStatus.add(subtask.is_completed)
+            }
+
+            intent.putStringArrayListExtra("SUBTASK_TITLES", subtaskTitles)
+            intent.putIntegerArrayListExtra("SUBTASK_STATUS", subtaskStatus)
+
+            it.context.startActivity(intent)
+        }
     }
 
     private fun showFlagPopup(anchorView: View, targetImageView: ImageView, task: TaskData) {
@@ -132,4 +157,5 @@ class TaskAdapter(
             notifyItemRangeChanged(position, taskList.size)
         }
     }
+
 }

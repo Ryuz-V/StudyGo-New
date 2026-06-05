@@ -28,6 +28,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.Calendar
 import java.util.Locale
+import android.widget.LinearLayout
 
 class HomeFragment : Fragment() {
 
@@ -190,9 +191,13 @@ class HomeFragment : Fragment() {
         val etTitle = view.findViewById<EditText>(R.id.etTaskTitle)
         val tvCategory = view.findViewById<TextView>(R.id.tvCategory)
         val btnCalendar = view.findViewById<ImageView>(R.id.btnCalendar)
+        val btnSubtask = view.findViewById<ImageView>(R.id.btnSubtask) // Ambil id tombol subtask
+        val containerSubtasks = view.findViewById<LinearLayout>(R.id.containerSubtasks) // Ambil id wadahnya
         val btnSubmit = view.findViewById<FloatingActionButton>(R.id.btnSubmitTask)
 
         var selectedDate = ""
+        // List sementara untuk menampung teks dari subtask sebelum dikirim
+        val subtaskListStrings = mutableListOf<String>()
 
         tvCategory.setOnClickListener { v ->
             val popupMenu = PopupMenu(requireContext(), v)
@@ -232,6 +237,25 @@ class HomeFragment : Fragment() {
             datePickerDialog.show()
         }
 
+        // --- LOGIKA MUNCULKAN SUBTASK ---
+        btnSubtask.setOnClickListener {
+            // 1. Buat (inflate) layout item_add_subtask yang tadi kita bikin
+            val subtaskView = layoutInflater.inflate(R.layout.item_add_subtask, null)
+            val btnRemove = subtaskView.findViewById<ImageView>(R.id.btnRemoveSubtask)
+            val etSubtask = subtaskView.findViewById<EditText>(R.id.etSubtaskName)
+
+            // 2. Jika tombol X diklik, hapus baris ini dari layar
+            btnRemove.setOnClickListener {
+                containerSubtasks.removeView(subtaskView)
+            }
+
+            // 3. Tambahkan ke dalam wadah (layar)
+            containerSubtasks.addView(subtaskView)
+
+            // 4. Otomatiskan kursor ke subtask baru
+            etSubtask.requestFocus()
+        }
+
         btnSubmit.setOnClickListener {
             val title = etTitle.text.toString().trim()
             if (title.isEmpty()) {
@@ -239,25 +263,40 @@ class HomeFragment : Fragment() {
                 return@setOnClickListener
             }
 
+            // LOOP UNTUK MENYIMPAN SEMUA TEKS SUBTASK
+            subtaskListStrings.clear()
+            for (i in 0 until containerSubtasks.childCount) {
+                val childView = containerSubtasks.getChildAt(i)
+                val etSubtask = childView.findViewById<EditText>(R.id.etSubtaskName)
+                val subtaskText = etSubtask.text.toString().trim()
+                if (subtaskText.isNotEmpty()) {
+                    subtaskListStrings.add(subtaskText)
+                }
+            }
+
+            // (Kode sementara: Menampilkan toast agar kamu tahu datanya berhasil ditangkap)
+            if (subtaskListStrings.isNotEmpty()) {
+                Toast.makeText(requireContext(), "Menyimpan ${subtaskListStrings.size} subtask", Toast.LENGTH_SHORT).show()
+            }
+
             btnSubmit.isEnabled = false
             btnSubmit.alpha = 0.5f
 
-            // LOGIKA DEFAULT "Lainnya"
             var selectedCatName = tvCategory.text.toString()
             if (selectedCatName == "Tidak Ada Kategori" || selectedCatName.isEmpty()) {
                 selectedCatName = "Lainnya"
             }
 
-            // Ubah nama kategori menjadi ID untuk dikirim ke Laravel
             val categoryId = getCategoryIdFromName(selectedCatName)
 
             val taskData = TaskRequest(
-                category_id = categoryId, // MENGIRIM ID BUKAN STRING
+                category_id = categoryId,
                 title = title,
                 description = "",
                 deadline = selectedDate,
                 status = "Pending",
-                priority = "Medium"
+                priority = "Medium",
+                subtasks = subtaskListStrings
             )
 
             val sharedPref = requireContext().getSharedPreferences("SesiPengguna", Context.MODE_PRIVATE)
@@ -268,7 +307,7 @@ class HomeFragment : Fragment() {
                     if (response.isSuccessful) {
                         Toast.makeText(requireContext(), "Task berhasil ditambahkan!", Toast.LENGTH_SHORT).show()
                         bottomSheetDialog.dismiss()
-                        fetchTasks() // Refresh list otomatis
+                        fetchTasks()
                     } else {
                         btnSubmit.isEnabled = true
                         btnSubmit.alpha = 1.0f

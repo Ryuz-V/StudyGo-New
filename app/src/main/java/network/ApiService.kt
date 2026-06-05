@@ -5,6 +5,7 @@ import com.example.todolist.model.ManualLoginRequest
 import com.example.todolist.model.RegisterRequest
 import com.example.todolist.model.LoginResponse
 import com.example.todolist.model.StatsResponse
+import com.example.todolist.model.SubtaskRequest
 import com.example.todolist.model.TaskRequest
 import com.example.todolist.model.TaskResponse
 import com.example.todolist.model.TaskData
@@ -60,4 +61,11 @@ interface ApiService {
 
     @GET("api/tasks/stats")
     fun getTaskStats(@Header("Authorization") token: String): Call<StatsResponse>
+    // PERHATIKAN: Ada tambahan 'api/' di depan tasks
+    @POST("api/tasks/{task_id}/subtasks")
+    fun addSubtask(
+        @Header("Authorization") token: String,
+        @Path("task_id") taskId: Int,
+        @Body request: com.example.todolist.model.SubtaskRequest
+    ): retrofit2.Call<com.example.todolist.model.TaskResponse>
 }

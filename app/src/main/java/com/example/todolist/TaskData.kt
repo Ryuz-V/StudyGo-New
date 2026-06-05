@@ -2,6 +2,12 @@ package com.example.todolist.model
 
 import com.google.gson.annotations.SerializedName
 
+data class SubtaskData(
+    @SerializedName("id_subtask")
+    val id: Int?,
+    val title: String,
+    var is_completed: Int
+)
 data class TaskData(
     @SerializedName("id_task")
     val id: Int,
@@ -16,7 +22,8 @@ data class TaskData(
     val is_completed: Int,
 
     @SerializedName("flag_color")
-    val flagColor: String?
+    val flagColor: String?,
+    val subtasks: List<SubtaskData>? = null
 )
 
 data class TaskListResponse(
